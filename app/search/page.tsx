@@ -1,15 +1,5 @@
-"use client";
+import ClientSearchPage from "../components/pages/ClientSearchPage";
 
-import { Container, Typography } from "@mui/material";
-
-const SearchPage = () => {
-  return (
-    <Container>
-      <Typography mb={4} variant="h4">
-        Searching for dogs!
-      </Typography>
-    </Container>
-  );
-};
-
-export default SearchPage;
+export default async function SearchPage() {
+  return <ClientSearchPage />;
+}
