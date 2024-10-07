@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
+  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -15,6 +16,7 @@ import {
   WhiteInputLabel,
   WhiteSelectList,
 } from "../styledComponents/WhiteSelectList";
+import { fetchDogsId } from "@/app/helpers/fetchDogsId";
 
 const SearchBar = () => {
   const [userSelectedbreeds, setUserSelectedBreeds] = useState<string[]>([]);
@@ -38,6 +40,22 @@ const SearchBar = () => {
       setMaxAge(Number(value));
     }
   };
+  // Handle multiple select changes
+  const handleSelectChange = (event: any) => {
+    const {
+      target: { value },
+    } = event;
+    setUserSelectedBreeds(typeof value === "string" ? value.split(",") : value);
+  };
+  const handleSearch = async () => {
+    const dogIds = await fetchDogsId({
+      breeds: userSelectedbreeds,
+      zipCode: Number(zipCode),
+      minAge: Number(minAge),
+      maxAge: Number(maxAge),
+    });
+    console.log({ dogIds });
+  };
 
   useEffect(() => {
     (async () => {
@@ -52,25 +70,30 @@ const SearchBar = () => {
       sx={{
         position: "relative",
         display: "flex",
-        justifyContent: "space-between",
       }}
     >
       <FormControl fullWidth>
         <WhiteInputLabel id="demo-simple-select-label">Breed</WhiteInputLabel>
         <WhiteSelectList
+          multiple
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          label="Breed"
-          sx={{ maxWidth: 200 }}
+          value={userSelectedbreeds}
+          onChange={handleSelectChange}
           MenuProps={{
             PaperProps: {
               style: {
-                maxHeight: 200, // Limit the height of the dropdown menu
+                maxHeight: 200,
               },
             },
           }}
+          variant={"standard"}
         >
-          <MenuItem value="" sx={{ color: theme.palette.background.default }}>
+          <MenuItem
+            value=""
+            disabled
+            sx={{ color: theme.palette.background.default }}
+          >
             <em>Please select a breed</em>
           </MenuItem>
           {!!breedsData?.length &&
@@ -111,6 +134,9 @@ const SearchBar = () => {
           onChange={handleAgeChange}
         />
       </FormControl>
+      <Button variant="contained" onClick={handleSearch}>
+        Search
+      </Button>
     </Box>
   );
 };

@@ -16,11 +16,17 @@ import axios from "axios";
 // name
 // age
 // Ex: sort=breed:asc
-export const fetchDogsId = async ({ queryParams }: any) => {
+export const fetchDogsId = async ({
+  breeds,
+  zipCode,
+  minAge,
+  maxAge,
+}: DogSearch) => {
+  debugger;
   const r = await axios.get(
     "https://frontend-take-home-service.fetch.com/dogs/search",
     {
-      params: queryParams,
+      params: { breeds, zipCode, minAge, maxAge },
       withCredentials: true,
     }
   );
