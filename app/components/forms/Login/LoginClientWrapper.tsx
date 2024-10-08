@@ -4,13 +4,13 @@ import LoginForm from "./Login";
 import axios from "axios";
 import { LoginData } from "@/app/typings/Login";
 import { useRouter } from "next/navigation";
-
+import { BASE_URL } from "@/config";
 export default function LoginClient() {
   const router = useRouter();
   const handleSubmit = async (loginData: LoginData) => {
     const { name, email } = loginData;
     const response = await axios.post(
-      `https://frontend-take-home-service.fetch.com/auth/login`,
+      `${BASE_URL}/auth/login`,
       { name, email },
       {
         withCredentials: true,

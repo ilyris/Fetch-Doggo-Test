@@ -15,6 +15,18 @@ const FavoritesHeader = () => {
   );
   const favoriteDogIds = favorites.map((doggo) => doggo.id);
 
+  const handleDogMatchRedirect = async () => {
+    const resultAction = await dispatch(fetchMatchedDog(favoriteDogIds));
+
+    if (fetchMatchedDog.fulfilled.match(resultAction)) {
+      const matchedDogId = resultAction.payload;
+
+      router.push(`/match/${matchedDogId}`);
+    } else {
+      console.error("Failed to fetch the matched dog.");
+    }
+  };
+
   return (
     <Box sx={{ display: "flex", justifyContent: "space-between", mt: 5 }}>
       <Typography variant="h6">Current Favorites: {favoritesCount}</Typography>
@@ -23,7 +35,9 @@ const FavoritesHeader = () => {
           sx={{ mr: 5 }}
           variant="contained"
           color="success"
-          onClick={() => dispatch(fetchMatchedDog(favoriteDogIds))}
+          onClick={() => {
+            handleDogMatchRedirect();
+          }}
         >
           Find Match
         </Button>
