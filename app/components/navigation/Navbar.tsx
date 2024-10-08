@@ -1,7 +1,5 @@
 "use client";
 import { Box } from "@mui/material";
-import SearchBar from "../search/SearchBar";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import MainStyledLink from "./MainStyledLink";
 import axios from "axios";
@@ -33,11 +31,11 @@ const Navigation: React.FC<NavigationProps> = ({ isUserLoggedIn }) => {
       sx={{
         display: "flex",
         width: "100%",
-        justifyContent: "space-between",
+        justifyContent: "end",
         p: 3,
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box>
         <Box>
           {isUserLoggedIn ? (
             <>

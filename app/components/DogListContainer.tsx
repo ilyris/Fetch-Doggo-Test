@@ -3,10 +3,12 @@ import { fetchDogBreedData } from "../helpers/fetchDogBreedData";
 import { Container, Typography } from "@mui/material";
 import { fetchDogsId } from "../helpers/fetchDogsId";
 import { fetchDogsByIds } from "../helpers/fetchDogsByIds";
+import DogCard from "./cards/DogCard";
 
 const DogListContainer = () => {
   const [breedsData, setBreedsData] = useState<string[]>([]);
   const [dogs, setDogs] = useState<Dog[]>([]);
+
   useEffect(() => {
     const fetchDogData = async () => {
       try {
@@ -36,9 +38,19 @@ const DogListContainer = () => {
   }, []);
 
   return (
-    <Container>
+    <Container
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        gap: 4,
+        py: 4,
+      }}
+    >
       {breedsData.length > 0 ? (
-        dogs?.map((dog) => <div key={dog.id}>{dog.name}</div>)
+        dogs?.map((data: Dog) => {
+          return <DogCard key={data.id} {...data} />;
+        })
       ) : (
         <Typography variant="h4">No Breeds Found</Typography>
       )}

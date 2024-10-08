@@ -89,6 +89,13 @@ export const theme = createTheme({
         },
       },
     },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#5C5470", // Set the global background color for Card
+        },
+      },
+    },
   },
   typography: {
     fontFamily: "Montserrat, Arial, sans-serif",

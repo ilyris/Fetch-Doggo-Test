@@ -48,16 +48,16 @@ const SearchBar = () => {
     setUserSelectedBreeds(typeof value === "string" ? value.split(",") : value);
   };
 
-  // const handleSearch = async () => {
-  //   const dogIds = await fetchDogsId({
-  //     breeds: userSelectedbreeds,
-  //     zipCode: Number(zipCode),
-  //     minAge: Number(minAge),
-  //     maxAge: Number(maxAge),
-  //   });
-  //   const dogsData = await fetchDogsByIds(dogIds.resultIds);
-  //   console.log({ dogsData });
-  // };
+  const handleSearch = async () => {
+    const dogIds = await fetchDogsId({
+      breeds: userSelectedbreeds,
+      zipCode: Number(zipCode),
+      minAge: Number(minAge),
+      maxAge: Number(maxAge),
+    });
+    const dogsData = await fetchDogsByIds(dogIds.resultIds);
+    console.log({ dogsData });
+  };
 
   useEffect(() => {
     (async () => {
