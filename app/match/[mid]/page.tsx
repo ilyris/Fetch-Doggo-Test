@@ -20,8 +20,8 @@ export default function MatchPage({ params }: { params: { mid: string } }) {
         <Card>
           <CardMedia
             sx={{
-              aspectRatio: "16 / 9", // Set your desired aspect ratio (e.g., 16:9, 4:3)
-              width: "100%", // Ensure the width adjusts to the container
+              aspectRatio: "16 / 9",
+              width: "100%",
             }}
             image={matchedDog.img}
             title={matchedDog.name}

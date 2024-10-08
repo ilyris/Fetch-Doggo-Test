@@ -6,10 +6,10 @@ export const fetchDogsId = async ({
   zipCode,
   minAge,
   maxAge,
-  nextUrl, // Optional next URL for pagination
+  nextUrl,
 }: DogSearch & { nextUrl?: string }) => {
   try {
-    let url = `${BASE_URL}/dogs/search`; // Default URL for the initial fetch
+    let url = `${BASE_URL}/dogs/search`;
 
     if (nextUrl) {
       url = nextUrl.startsWith("http") ? nextUrl : `${BASE_URL}${nextUrl}`;
