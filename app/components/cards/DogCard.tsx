@@ -1,7 +1,15 @@
 import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { useAppDispatch } from "@/app/lib/hooks";
+import { addToFavorites } from "@/app/lib/features/dogMatchesSlice";
 
-const DogCard: React.FC<Dog> = ({ img, name, age, zip_code, breed }) => {
+const DogCard: React.FC<Dog> = ({ img, name, age, zip_code, breed, id }) => {
+  const dispatch = useAppDispatch();
+
+  const handleFavoriteDogAddition = () => {
+    dispatch(addToFavorites({ img, name, age, zip_code, breed, id }));
+  };
+
   return (
     <Card sx={{ flex: "0 1 auto", position: "relative" }}>
       <CardMedia sx={{ height: 140 }} image={img} title={name} />
@@ -16,7 +24,7 @@ const DogCard: React.FC<Dog> = ({ img, name, age, zip_code, breed }) => {
             top: 0,
             right: 15,
           }}
-          onClick={() => console.log("do shit")}
+          onClick={handleFavoriteDogAddition}
         >
           <StarIcon
             sx={{

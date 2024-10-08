@@ -1,10 +1,9 @@
 "use client";
-import { Button, Container, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import Navbar from "../navigation/Navbar";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import SearchBar from "../search/SearchBar";
 import DogListContainer from "../DogListContainer";
+import FavoritesHeader from "../FavoritesHeader";
 
 const ClientSearchPage = () => {
   return (
@@ -14,6 +13,7 @@ const ClientSearchPage = () => {
         Searching for your dog!
       </Typography>
       <SearchBar />
+      <FavoritesHeader />
       <DogListContainer />
     </Container>
   );
