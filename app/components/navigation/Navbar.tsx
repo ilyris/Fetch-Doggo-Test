@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import MainStyledLink from "./MainStyledLink";
 import axios from "axios";
+import { BASE_URL } from "@/config";
 
 interface NavigationProps {
   isUserLoggedIn: boolean;
@@ -12,7 +13,7 @@ const Navigation: React.FC<NavigationProps> = ({ isUserLoggedIn }) => {
 
   const handleSignOut = async () => {
     const response = await axios.post(
-      `https://frontend-take-home-service.fetch.com/auth/logout`,
+      `${BASE_URL}/auth/logout`,
       {},
       {
         withCredentials: true,

@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { BASE_URL } from "@/config";
 interface Match {
   match: string;
 }
@@ -10,12 +10,14 @@ interface Match {
 export interface DogMatchesState {
   favoritesCount: number;
   favorites: Dog[];
-  matchedDog: Match | null;
+  matchedDogId: Match | null;
+  matchedDog: Dog | null;
 }
 
 const initialState: DogMatchesState = {
   favoritesCount: 0,
   favorites: [],
+  matchedDogId: null,
   matchedDog: null,
 };
 
@@ -24,7 +26,7 @@ export const fetchMatchedDog = createAsyncThunk(
   "dogMatches/matchedDogAsyncThunk",
   async (favoriteDogIds: string[]) => {
     const response = await axios.post(
-      "https://frontend-take-home-service.fetch.com/dogs/match",
+      `${BASE_URL}/dogs/match`,
       [...favoriteDogIds],
       {
         withCredentials: true,
@@ -56,13 +58,14 @@ export const DogMatchesSlice = createSlice({
       state.favoritesCount = 0;
     },
     clearDog: (state) => {
-      state.matchedDog = null;
+      state.matchedDogId = null;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchMatchedDog.fulfilled, (state, action) => {
-      console.log(action.payload);
-      state.matchedDog = action.payload;
+      state.matchedDogId = action.payload;
+      state.matchedDog =
+        state.favorites.find((dog) => dog.id === action.payload) || null;
     });
   },
 });

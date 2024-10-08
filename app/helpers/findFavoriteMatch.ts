@@ -1,9 +1,10 @@
+import { BASE_URL } from "@/config";
 import axios from "axios";
 
 // get dog objects
 export const fetchDogsByIds = async (favoriteDogIds: string[]) => {
   const response = await axios.post(
-    "https://frontend-take-home-service.fetch.com/dogs/match",
+    `${BASE_URL}/dogs/match`,
     [...favoriteDogIds],
     {
       withCredentials: true,
