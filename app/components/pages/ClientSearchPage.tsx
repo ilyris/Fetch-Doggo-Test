@@ -5,6 +5,7 @@ import Navbar from "../navigation/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SearchBar from "../search/SearchBar";
+import DogListContainer from "../dogListContainer";
 
 const ClientSearchPage = () => {
   return (
@@ -13,8 +14,8 @@ const ClientSearchPage = () => {
       <Typography mb={4} variant="h4">
         Searching for your dog!
       </Typography>
-      <SearchBar />
-      {/* <Button onClick={() => fetchDogs()}>Show me dogs!</Button> */}
+      {/* <SearchBar /> */}
+      <DogListContainer />
     </Container>
   );
 };

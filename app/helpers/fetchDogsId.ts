@@ -22,14 +22,14 @@ export const fetchDogsId = async ({
   minAge,
   maxAge,
 }: DogSearch) => {
-  debugger;
+  console.log({breeds})
   const r = await axios.get(
     "https://frontend-take-home-service.fetch.com/dogs/search",
     {
-      params: { breeds, zipCode, minAge, maxAge },
+      params: { breeds: ["Pug", "German Shepherd"], zipCode, minAge, maxAge },
       withCredentials: true,
     }
   );
   console.log({ r });
-  if ((r.status = 2000)) return r.data;
+  if (r.status === 200) return r.data.resultIds;
 };

@@ -17,6 +17,7 @@ import {
   WhiteSelectList,
 } from "../styledComponents/WhiteSelectList";
 import { fetchDogsId } from "@/app/helpers/fetchDogsId";
+import { fetchDogsByIds } from "@/app/helpers/fetchDogsByIds";
 
 const SearchBar = () => {
   const [userSelectedbreeds, setUserSelectedBreeds] = useState<string[]>([]);
@@ -24,8 +25,6 @@ const SearchBar = () => {
   const [zipCode, setZipCode] = useState<number | null>(null);
   const [minAge, setMinAge] = useState<number | null>(null);
   const [maxAge, setMaxAge] = useState<number | null>(null);
-
-  console.log({ zipCode });
 
   const handleZipCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setZipCode(Number(e.target.value));
@@ -40,6 +39,7 @@ const SearchBar = () => {
       setMaxAge(Number(value));
     }
   };
+
   // Handle multiple select changes
   const handleSelectChange = (event: any) => {
     const {
@@ -47,20 +47,21 @@ const SearchBar = () => {
     } = event;
     setUserSelectedBreeds(typeof value === "string" ? value.split(",") : value);
   };
-  const handleSearch = async () => {
-    const dogIds = await fetchDogsId({
-      breeds: userSelectedbreeds,
-      zipCode: Number(zipCode),
-      minAge: Number(minAge),
-      maxAge: Number(maxAge),
-    });
-    console.log({ dogIds });
-  };
+
+  // const handleSearch = async () => {
+  //   const dogIds = await fetchDogsId({
+  //     breeds: userSelectedbreeds,
+  //     zipCode: Number(zipCode),
+  //     minAge: Number(minAge),
+  //     maxAge: Number(maxAge),
+  //   });
+  //   const dogsData = await fetchDogsByIds(dogIds.resultIds);
+  //   console.log({ dogsData });
+  // };
 
   useEffect(() => {
     (async () => {
       const breeds = await fetchDogBreedData();
-      console.log({ breeds });
       setBreedsData(breeds);
     })();
   }, []);

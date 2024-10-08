@@ -1,13 +1,12 @@
 import axios from "axios";
 
-// gets dog objects
-export const fetchDogs = async () => {
+// get dog objects
+export const fetchDogsByIds = async (dogIds: string[]) => {
   const response = await axios.post(
     "https://frontend-take-home-service.fetch.com/dogs",
-    // This is the request body, should not be wrapped inside another 'body' object
-    ["VXGFTIcBOvEgQ5OCx40W", "dHGFTIcBOvEgQ5OCx40W", "uHGFTIcBOvEgQ5OCx40W"],
+    [...dogIds],
     {
-      withCredentials: true, // Ensures cookies are sent if needed
+      withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
