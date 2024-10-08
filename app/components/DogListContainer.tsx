@@ -14,23 +14,21 @@ const DogListContainer = () => {
 
   const fetchDogs = async (url: string | null) => {
     try {
-      // Call fetchDogsId with nextUrl if provided, or construct with breedsData
       const dogIds = await fetchDogsId({
         breeds: breedsData,
         // zipCode: 80920, // Example zipCode
         // minAge: 1,
         // maxAge: 10,
-        nextUrl: url || undefined, // Pass nextUrl if provided, or undefined
+        nextUrl: url || undefined,
       });
 
-      // Update total dogs
       setTotalDogs(dogIds.total);
 
       if (dogIds.resultIds?.length) {
         const dogsData = await fetchDogsByIds(dogIds.resultIds);
         setDogs(dogsData);
-        setNextPageUrl(dogIds.next || null); // Get the next page URL from the API response
-        setPrevPageUrl(dogIds.prev || null); // Get the prev page URL from the API response
+        setNextPageUrl(dogIds.next || null);
+        setPrevPageUrl(dogIds.prev || null);
       }
     } catch (error) {
       console.error("Error fetching dog data:", error);
@@ -44,9 +42,8 @@ const DogListContainer = () => {
         const breeds = await fetchDogBreedData();
         setBreedsData(breeds);
 
-        // Call fetchDogs with null (or starting URL) to fetch the first set of data
         if (breeds?.length) {
-          fetchDogs(null); // Assuming fetchDogsId can handle initial fetch without a URL
+          fetchDogs(null);
         }
       } catch (error) {
         console.error("Error fetching initial dog data:", error);
@@ -56,7 +53,6 @@ const DogListContainer = () => {
     fetchInitialData();
   }, []);
 
-  // Handler for fetching next/previous pages
   const handleNext = () => {
     if (nextPageUrl) fetchDogs(nextPageUrl);
   };
@@ -75,7 +71,6 @@ const DogListContainer = () => {
         py: 4,
       }}
     >
-      {/* Render the dogs */}
       {breedsData.length > 0 ? (
         dogs?.map((data: Dog) => {
           return <DogCard key={data.id} {...data} />;
@@ -84,9 +79,6 @@ const DogListContainer = () => {
         <Typography variant="h4">No Breeds Found</Typography>
       )}
 
-      {/* Loading spinner or message */}
-
-      {/* Next/Previous buttons */}
       {!!totalDogs && !!dogs?.length && (
         <Box display={"flex"} justifyContent={"center"} width={"100%"} mt={4}>
           <Button
