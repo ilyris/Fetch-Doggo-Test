@@ -4,7 +4,7 @@ import { BASE_URL } from "@/config";
 // gets dog breeds
 export const fetchDogBreedData = async () => {
   const response = await axios.get(`${BASE_URL}/dogs/breeds`, {
-    withCredentials: true, // Ensure this is in the right place
+    withCredentials: true,
     headers: {
       "Content-Type": "application/json",
     },
