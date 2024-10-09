@@ -106,7 +106,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLoginFormCb }) => {
           component="form"
           sx={{ display: "flex", flexDirection: "column" }}
           onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-            console.log("running");
             event.preventDefault();
             handleLoginFormCb({ name: fullName, email });
           }}

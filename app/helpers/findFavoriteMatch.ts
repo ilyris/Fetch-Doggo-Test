@@ -14,5 +14,4 @@ export const fetchDogsByIds = async (favoriteDogIds: string[]) => {
     }
   );
   if (response.status === 200) return response.data.match;
-  console.log({ response });
 };

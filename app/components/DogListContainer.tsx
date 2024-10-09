@@ -4,62 +4,52 @@ import { Box, Container, Button, Typography } from "@mui/material";
 import { fetchDogsId } from "../helpers/fetchDogsId";
 import { fetchDogsByIds } from "../helpers/fetchDogsByIds";
 import DogCard from "./cards/DogCard";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../lib/hooks";
+import { AppDispatch } from "../lib/store";
+import {
+  fetchDogObjects,
+  fetchDogsByBreed,
+} from "../lib/features/dogSearchSlice";
 
 const DogListContainer = () => {
+  const dispatch: AppDispatch = useDispatch();
   const [breedsData, setBreedsData] = useState<string[]>([]);
-  const [dogs, setDogs] = useState<Dog[]>([]);
-  const [nextPageUrl, setNextPageUrl] = useState<string | null>(null);
-  const [prevPageUrl, setPrevPageUrl] = useState<string | null>(null);
-  const [totalDogs, setTotalDogs] = useState<number | null>(null);
+  const { dogIds, dogs, nextPageUrl, prevPageUrl, totalCount, breeds } =
+    useAppSelector((state) => state.dogs);
 
-  const fetchDogs = async (url: string | null) => {
+  const fetchBreeds = async () => {
     try {
-      const dogIds = await fetchDogsId({
-        breeds: breedsData,
-        // zipCode: 80920, // Example zipCode
-        // minAge: 1,
-        // maxAge: 10,
-        nextUrl: url || undefined,
-      });
-
-      setTotalDogs(dogIds.total);
-
-      if (dogIds.resultIds?.length) {
-        const dogsData = await fetchDogsByIds(dogIds.resultIds);
-        setDogs(dogsData);
-        setNextPageUrl(dogIds.next || null);
-        setPrevPageUrl(dogIds.prev || null);
-      }
+      const initialBreeds = await fetchDogBreedData();
+      setBreedsData(initialBreeds);
+      handleFetchDogsWithDetails();
     } catch (error) {
-      console.error("Error fetching dog data:", error);
+      console.error("Error fetching initial dog data:", error);
     }
   };
 
-  // Initial fetch
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        const breeds = await fetchDogBreedData();
-        setBreedsData(breeds);
+  const handleFetchDogsWithDetails = (nextUrl?: string) => {
+    const selectedBreeds = !!breeds.length ? breeds : breedsData;
+    dispatch(fetchDogObjects({ breeds: selectedBreeds, nextUrl }));
+  };
 
-        if (breeds?.length) {
-          fetchDogs(null);
-        }
-      } catch (error) {
-        console.error("Error fetching initial dog data:", error);
-      }
-    };
-
-    fetchInitialData();
-  }, []);
-
+  // Handle next page
   const handleNext = () => {
-    if (nextPageUrl) fetchDogs(nextPageUrl);
+    if (nextPageUrl) {
+      handleFetchDogsWithDetails(nextPageUrl);
+    }
   };
 
+  // Handle previous page
   const handlePrevious = () => {
-    if (prevPageUrl) fetchDogs(prevPageUrl);
+    if (prevPageUrl) {
+      handleFetchDogsWithDetails(prevPageUrl);
+    }
   };
+
+  useEffect(() => {
+    fetchBreeds();
+  }, []);
 
   return (
     <Container
@@ -71,7 +61,7 @@ const DogListContainer = () => {
         py: 4,
       }}
     >
-      {breedsData.length > 0 ? (
+      {dogs.length > 0 ? (
         dogs?.map((data: Dog) => {
           return <DogCard key={data.id} {...data} />;
         })
@@ -79,7 +69,7 @@ const DogListContainer = () => {
         <Typography variant="h4">No Breeds Found</Typography>
       )}
 
-      {!!totalDogs && !!dogs?.length && (
+      {!!totalCount && !!dogs?.length && (
         <Box display={"flex"} justifyContent={"center"} width={"100%"} mt={4}>
           <Button
             variant="contained"

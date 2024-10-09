@@ -10,5 +10,4 @@ export const fetchDogsByIds = async (dogIds: string[]) => {
     },
   });
   if (response.status === 200) return response.data;
-  console.log({ response });
 };

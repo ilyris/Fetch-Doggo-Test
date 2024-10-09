@@ -18,25 +18,40 @@ import {
 } from "../styledComponents/WhiteSelectList";
 import { fetchDogsId } from "@/app/helpers/fetchDogsId";
 import { fetchDogsByIds } from "@/app/helpers/fetchDogsByIds";
+import {
+  fetchDogObjects,
+  setMaxAge,
+  setMinAge,
+  setUserSelectedBreeds,
+  setZipCode,
+} from "@/app/lib/features/dogSearchSlice";
+import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 
 const SearchBar = () => {
-  const [userSelectedbreeds, setUserSelectedBreeds] = useState<string[]>([]);
+  const dispatch = useAppDispatch();
+  const { breeds, zipCode, minAge, maxAge } = useAppSelector(
+    (state) => state.dogs
+  );
+
+  const [localZipCode, setLocalZipCode] = useState<number | null>(null);
+  const [localMinAge, setLocalMinAge] = useState<number | null>(null);
+  const [localMaxAge, setLocalMaxAge] = useState<number | null>(null);
   const [breedsData, setBreedsData] = useState<string[]>([]);
-  const [zipCode, setZipCode] = useState<number | null>(null);
-  const [minAge, setMinAge] = useState<number | null>(null);
-  const [maxAge, setMaxAge] = useState<number | null>(null);
 
   const handleZipCode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setZipCode(Number(e.target.value));
+    setLocalZipCode(Number(e.target.value));
+    dispatch(setZipCode(Number(e.target.value)));
   };
 
   const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     if (name === "minAge") {
-      setMinAge(Number(value));
+      setLocalMinAge(Number(value));
+      dispatch(setMinAge(Number(value)));
     } else if (name === "maxAge") {
-      setMaxAge(Number(value));
+      setLocalMaxAge(Number(value));
+      dispatch(setMaxAge(Number(value)));
     }
   };
 
@@ -45,18 +60,22 @@ const SearchBar = () => {
     const {
       target: { value },
     } = event;
-    setUserSelectedBreeds(typeof value === "string" ? value.split(",") : value);
+    dispatch(
+      setUserSelectedBreeds(
+        typeof value === "string" ? value.split(",") : value
+      )
+    );
   };
 
   const handleSearch = async () => {
-    const dogIds = await fetchDogsId({
-      breeds: userSelectedbreeds,
-      zipCode: Number(zipCode),
-      minAge: Number(minAge),
-      maxAge: Number(maxAge),
-    });
-    const dogsData = await fetchDogsByIds(dogIds.resultIds);
-    console.log({ dogsData });
+    dispatch(
+      fetchDogObjects({
+        breeds,
+        zipCode: Number(zipCode),
+        minAge: Number(minAge),
+        maxAge: Number(maxAge),
+      })
+    );
   };
 
   useEffect(() => {
@@ -74,12 +93,15 @@ const SearchBar = () => {
       }}
     >
       <FormControl fullWidth>
-        <WhiteInputLabel id="demo-simple-select-label">Breed</WhiteInputLabel>
+        <WhiteInputLabel id="demo-simple-select-label" theme={theme}>
+          Breed
+        </WhiteInputLabel>
         <WhiteSelectList
+          theme={theme}
           multiple
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={userSelectedbreeds}
+          value={breeds}
           onChange={handleSelectChange}
           MenuProps={{
             PaperProps: {
@@ -111,27 +133,30 @@ const SearchBar = () => {
       </FormControl>
       <FormControl fullWidth>
         <WhiteTextField
+          theme={theme}
           label="zip code"
           placeholder="zip code"
-          value={!!zipCode ? zipCode : ""}
+          value={!!localZipCode ? localZipCode : ""}
           onChange={handleZipCode}
         />
       </FormControl>
       <FormControl fullWidth>
         <WhiteTextField
+          theme={theme}
           label="min age"
           name="minAge"
           placeholder="min age"
-          value={!!minAge ? minAge : ""}
+          value={!!localMinAge ? localMinAge : ""}
           onChange={handleAgeChange}
         />
       </FormControl>
       <FormControl fullWidth>
         <WhiteTextField
+          theme={theme}
           label="max age"
           name="maxAge"
           placeholder="max age"
-          value={!!maxAge ? maxAge : ""}
+          value={!!localMaxAge ? localMaxAge : ""}
           onChange={handleAgeChange}
         />
       </FormControl>

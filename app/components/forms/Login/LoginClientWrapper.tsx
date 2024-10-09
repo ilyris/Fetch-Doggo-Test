@@ -5,6 +5,7 @@ import axios from "axios";
 import { LoginData } from "@/app/typings/Login";
 import { useRouter } from "next/navigation";
 import { BASE_URL } from "@/config";
+
 export default function LoginClient() {
   const router = useRouter();
   const handleSubmit = async (loginData: LoginData) => {
@@ -19,7 +20,6 @@ export default function LoginClient() {
         },
       }
     );
-    console.log({ response });
     if (response.status === 200) router.push("/search");
   };
 

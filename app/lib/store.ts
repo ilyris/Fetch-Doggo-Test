@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import dogMatchesSlice from "./features/dogMatchesSlice";
+import dogSearchSlice from "./features/dogSearchSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       dogMatches: dogMatchesSlice,
+      dogs: dogSearchSlice,
     },
   });
 };
