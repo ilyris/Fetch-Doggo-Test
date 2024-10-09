@@ -1,5 +1,5 @@
 "use client";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_URL } from "@/config";
 import { fetchDogBreedData } from "@/app/helpers/fetchDogBreedData";
@@ -125,17 +125,31 @@ const DogsSlice = createSlice({
     },
   },
 
-  // would add rejections for global error messages, pendings for loading state, fulfilled for success messages where needed.
+  // Would add rejections for global error messages, pendings for loading state, fulfilled for success messages where needed.
   extraReducers: (builder) => {
-    builder.addCase(fetchDogBreeds.fulfilled, (state, action) => {
-      state.breeds = action.payload;
-    });
-    builder.addCase(fetchDogsByBreed.fulfilled, (state, action) => {
-      state.dogIds = action.payload.dogIds;
-      state.nextPageUrl = action.payload.nextPageUrl;
-      state.prevPageUrl = action.payload.prevPageUrl;
-      state.totalCount = action.payload.totalCount;
-    });
+    builder.addCase(
+      fetchDogBreeds.fulfilled,
+      (state, action: PayloadAction<string[]>) => {
+        state.breeds = action.payload;
+      }
+    );
+    builder.addCase(
+      fetchDogsByBreed.fulfilled,
+      (
+        state,
+        action: PayloadAction<{
+          dogIds: string[];
+          nextPageUrl: string;
+          prevPageUrl: string;
+          totalCount: number;
+        }>
+      ) => {
+        state.dogIds = action.payload.dogIds;
+        state.nextPageUrl = action.payload.nextPageUrl;
+        state.prevPageUrl = action.payload.prevPageUrl;
+        state.totalCount = action.payload.totalCount;
+      }
+    );
 
     builder.addCase(fetchDogObjects.fulfilled, (state, action) => {
       state.dogs = action.payload.dogs;
