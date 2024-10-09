@@ -5,6 +5,7 @@ import { BASE_URL } from "@/config";
 import { fetchDogBreedData } from "@/app/helpers/fetchDogBreedData";
 import { fetchDogsByIds } from "@/app/helpers/fetchDogsByIds";
 import { DogSearch } from "@/app/typings/DogSearch";
+import { Dog } from "@/app/typings/Dog";
 
 export interface SearchFormState {
   breeds: string[];
