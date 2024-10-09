@@ -43,31 +43,26 @@ export const fetchDogBreeds = createAsyncThunk(
 
 export const fetchDogsByBreed = createAsyncThunk(
   "searchForm/filteredBreedsAsyncThunk",
-  async ({
-    breeds,
-    zipCode,
-    minAge,
-    maxAge,
-    nextUrl,
-    sort
-  }: DogSearch) => {
+  async (params: DogSearch = {}) => { // Default to an empty object
+    const { breeds, zipCode, minAge, maxAge, nextUrl, sort } = params;
+
     let url = `${BASE_URL}/dogs/search`;
     if (nextUrl) {
       url = nextUrl.startsWith("http") ? nextUrl : `${BASE_URL}${nextUrl}`;
     }
 
-    const params = nextUrl
+    const queryParams = nextUrl
       ? {}
       : {
           breeds,
           zipCode,
           ageMin: minAge,
           ageMax: maxAge,
-          sort: `breed:${sort ?? "asc"}`
+          sort: `breed:${sort ?? "asc"}`, // Default to "asc" if sort is not provided
         };
 
     const response = await axios.get(url, {
-      params: nextUrl ? undefined : params,
+      params: nextUrl ? undefined : queryParams,
       withCredentials: true,
     });
 
@@ -82,8 +77,8 @@ export const fetchDogsByBreed = createAsyncThunk(
 
 export const fetchDogObjects = createAsyncThunk(
   "dogMatches/fetchMatchedDogsWithDetails",
-  async (searchParams: DogSearch, { dispatch }) => {
-    const result = await dispatch(fetchDogsByBreed(searchParams)).unwrap();
+  async (searchParams: DogSearch | undefined, { dispatch }) => {
+    const result = await dispatch(fetchDogsByBreed(searchParams  || {})).unwrap();
     const dogIds = result.dogIds;
     const response = await fetchDogsByIds(dogIds);
     return {

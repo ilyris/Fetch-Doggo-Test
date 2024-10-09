@@ -54,13 +54,18 @@ const SearchBar = () => {
     );
   };
 
+  const handleClearForm = () => {
+    dispatch(fetchDogObjects());
+    dispatch(clearSearchForm());
+  };
+
   const handleSearch = async () => {
     dispatch(
       fetchDogObjects({
         breeds: userSelectedBreeds,
-        zipCode: Number(zipCode),
-        minAge: Number(minAge),
-        maxAge: Number(maxAge),
+        zipCode: !!zipCode ? Number(zipCode) : undefined,
+        minAge: !!minAge ? Number(minAge) : undefined,
+        maxAge: !!maxAge ? Number(maxAge) : undefined,
       })
     );
 
@@ -68,7 +73,6 @@ const SearchBar = () => {
     setLocalZipCode(null);
     setLocalMinAge(null);
     setLocalMaxAge(null);
-    dispatch(clearSearchForm());
   };
 
   return (
@@ -148,6 +152,9 @@ const SearchBar = () => {
       </FormControl>
       <Button variant="contained" onClick={handleSearch}>
         Search
+      </Button>
+      <Button variant="contained" onClick={handleClearForm}>
+        Reset
       </Button>
     </Box>
   );

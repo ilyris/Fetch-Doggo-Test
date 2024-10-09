@@ -1,27 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Box, Container, Button, Typography } from "@mui/material";
 import DogCard from "./cards/DogCard";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../lib/hooks";
 import { AppDispatch } from "../lib/store";
-import {
-  fetchDogBreeds,
-  fetchDogObjects,
-} from "../lib/features/dogSearchSlice";
+import { fetchDogObjects } from "../lib/features/dogSearchSlice";
 
 const DogListContainer = () => {
   const dispatch: AppDispatch = useDispatch();
-  const {
-    dogs,
-    nextPageUrl,
-    prevPageUrl,
-    totalCount,
-    breeds,
-    userSelectedBreeds,
-  } = useAppSelector((state) => state.dogs);
+  const { dogs, nextPageUrl, prevPageUrl, totalCount, breeds } = useAppSelector(
+    (state) => state.dogs
+  );
 
   const handleFetchDogsWithDetails = (nextUrl?: string) => {
-    const selectedBreeds = !!breeds.length ? breeds : userSelectedBreeds;
     dispatch(fetchDogObjects({ breeds: breeds, nextUrl }));
   };
 
