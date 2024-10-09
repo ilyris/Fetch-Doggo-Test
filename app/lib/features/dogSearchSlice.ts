@@ -100,7 +100,7 @@ const DogsSlice = createSlice({
   initialState,
   reducers: {
     setUserSelectedBreeds: (state, action) => {
-      state.breeds = action.payload;
+      state.userSelectedBreeds = action.payload;
     },
     setZipCode: (state, action) => {
       state.zipCode = action.payload;
@@ -113,6 +113,12 @@ const DogsSlice = createSlice({
     },
     clearDogs: (state) => {
       state.dogs = [];
+    },
+    clearSearchForm: (state) => {
+      state.maxAge = null;
+      state.minAge = null;
+      state.zipCode = null;
+      state.userSelectedBreeds = []
     },
   },
 
@@ -144,5 +150,6 @@ export const {
   setZipCode,
   setMinAge,
   setMaxAge,
+  clearSearchForm
 } = DogsSlice.actions;
 export default DogsSlice.reducer;

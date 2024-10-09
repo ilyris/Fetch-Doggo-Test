@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Button, FormControl, MenuItem } from "@mui/material";
-import { fetchDogBreedData } from "@/app/helpers/fetchDogBreedData";
 import theme from "@/app/theme";
 import { WhiteTextField } from "../styledComponents/WhiteTextField";
 import {
@@ -8,6 +7,7 @@ import {
   WhiteSelectList,
 } from "../styledComponents/WhiteSelectList";
 import {
+  clearSearchForm,
   fetchDogObjects,
   setMaxAge,
   setMinAge,
@@ -18,14 +18,12 @@ import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
-  const { breeds, zipCode, minAge, maxAge } = useAppSelector(
-    (state) => state.dogs
-  );
+  const { breeds, zipCode, minAge, maxAge, userSelectedBreeds } =
+    useAppSelector((state) => state.dogs);
 
   const [localZipCode, setLocalZipCode] = useState<number | null>(null);
   const [localMinAge, setLocalMinAge] = useState<number | null>(null);
   const [localMaxAge, setLocalMaxAge] = useState<number | null>(null);
-  const [breedsData, setBreedsData] = useState<string[]>([]);
 
   const handleZipCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalZipCode(Number(e.target.value));
@@ -59,7 +57,7 @@ const SearchBar = () => {
   const handleSearch = async () => {
     dispatch(
       fetchDogObjects({
-        breeds,
+        breeds: userSelectedBreeds,
         zipCode: Number(zipCode),
         minAge: Number(minAge),
         maxAge: Number(maxAge),
@@ -70,7 +68,7 @@ const SearchBar = () => {
     setLocalZipCode(null);
     setLocalMinAge(null);
     setLocalMaxAge(null);
-    setBreedsData([]);
+    dispatch(clearSearchForm());
   };
 
   return (
@@ -89,7 +87,7 @@ const SearchBar = () => {
           multiple
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={breeds}
+          value={userSelectedBreeds}
           onChange={handleSelectChange}
           MenuProps={{
             PaperProps: {
