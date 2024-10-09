@@ -89,14 +89,14 @@ const SearchBar = () => {
       }}
     >
       <FormControl fullWidth>
-        <WhiteInputLabel id="demo-simple-select-label" theme={theme}>
+        <WhiteInputLabel id="breed-search-label" theme={theme}>
           Breed
         </WhiteInputLabel>
         <WhiteSelectList
           theme={theme}
           multiple
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="breed-search-select-label"
+          id="breed-search-select-label"
           value={userSelectedBreeds}
           onChange={handleSelectChange}
           MenuProps={{
