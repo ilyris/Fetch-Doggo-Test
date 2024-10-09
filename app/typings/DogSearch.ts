@@ -1,4 +1,4 @@
-interface DogSearch {
+export interface DogSearch {
   breeds?: string[]; // Array of breeds (assuming it's an array of strings)
   nextUrl?: string;
   prevUrl?: string;

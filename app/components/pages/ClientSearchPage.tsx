@@ -1,8 +1,8 @@
 "use client";
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import Navbar from "../navigation/Navbar";
 import SearchBar from "../search/SearchBar";
-import DogListContainer from "../DogListContainer";
+import DogListContainer from "./DogListContainer";
 import FavoritesHeader from "../FavoritesHeader";
 import BreedSortSelect from "../sort/BreedSortSelect";
 import { useAppDispatch } from "@/app/lib/hooks";

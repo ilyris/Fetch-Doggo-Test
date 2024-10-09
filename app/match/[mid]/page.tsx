@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function MatchPage({ params }: { params: { mid: string } }) {
+export default function MatchPage() {
   const matchedDog = useAppSelector((state) => state.dogMatches.matchedDog);
 
   return (

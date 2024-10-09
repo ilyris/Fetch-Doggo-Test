@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Box, Button, FormControl, MenuItem } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  MenuItem,
+  SelectChangeEvent,
+} from "@mui/material";
 import theme from "@/app/theme";
 import { WhiteTextField } from "../styledComponents/WhiteTextField";
 import {
@@ -43,7 +49,7 @@ const SearchBar = () => {
   };
 
   // Handle multiple select changes
-  const handleSelectChange = (event: any) => {
+  const handleSelectChange = (event: SelectChangeEvent<unknown>) => {
     const {
       target: { value },
     } = event;

@@ -6,7 +6,6 @@ import {
   Button,
   TextField,
   CardContent,
-  CardActionArea,
   styled,
 } from "@mui/material";
 import Link from "next/link";

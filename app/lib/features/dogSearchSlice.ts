@@ -4,6 +4,7 @@ import axios from "axios";
 import { BASE_URL } from "@/config";
 import { fetchDogBreedData } from "@/app/helpers/fetchDogBreedData";
 import { fetchDogsByIds } from "@/app/helpers/fetchDogsByIds";
+import { DogSearch } from "@/app/typings/DogSearch";
 
 export interface SearchFormState {
   breeds: string[];
@@ -30,20 +31,21 @@ const initialState: SearchFormState = {
   zipCode: null,
   minAge: null,
   maxAge: null,
-  sort: "asc"
+  sort: "asc",
 };
 
 export const fetchDogBreeds = createAsyncThunk(
   "dogMatches/fetchDogBreeds",
   async () => {
     const breeds = await fetchDogBreedData();
-    return breeds; 
+    return breeds;
   }
 );
 
 export const fetchDogsByBreed = createAsyncThunk(
   "searchForm/filteredBreedsAsyncThunk",
-  async (params: DogSearch = {}) => { // Default to an empty object
+  async (params: DogSearch = {}) => {
+    // Default to an empty object
     const { breeds, zipCode, minAge, maxAge, nextUrl, sort } = params;
 
     let url = `${BASE_URL}/dogs/search`;
@@ -78,7 +80,9 @@ export const fetchDogsByBreed = createAsyncThunk(
 export const fetchDogObjects = createAsyncThunk(
   "dogMatches/fetchMatchedDogsWithDetails",
   async (searchParams: DogSearch | undefined, { dispatch }) => {
-    const result = await dispatch(fetchDogsByBreed(searchParams  || {})).unwrap();
+    const result = await dispatch(
+      fetchDogsByBreed(searchParams || {})
+    ).unwrap();
     const dogIds = result.dogIds;
     const response = await fetchDogsByIds(dogIds);
     return {
@@ -113,15 +117,15 @@ const DogsSlice = createSlice({
       state.maxAge = null;
       state.minAge = null;
       state.zipCode = null;
-      state.userSelectedBreeds = []
+      state.userSelectedBreeds = [];
     },
   },
 
   // would add rejections for global error messages, pendings for loading state, fulfilled for success messages where needed.
   extraReducers: (builder) => {
-        builder.addCase(fetchDogBreeds.fulfilled, (state, action) => {
-          state.breeds = action.payload;
-        });
+    builder.addCase(fetchDogBreeds.fulfilled, (state, action) => {
+      state.breeds = action.payload;
+    });
     builder.addCase(fetchDogsByBreed.fulfilled, (state, action) => {
       state.dogIds = action.payload.dogIds;
       state.nextPageUrl = action.payload.nextPageUrl;
@@ -145,6 +149,6 @@ export const {
   setZipCode,
   setMinAge,
   setMaxAge,
-  clearSearchForm
+  clearSearchForm,
 } = DogsSlice.actions;
 export default DogsSlice.reducer;

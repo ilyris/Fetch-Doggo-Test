@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { Box, Container, Button, Typography } from "@mui/material";
-import DogCard from "./cards/DogCard";
+import DogCard from "../cards/DogCard";
 import { useDispatch } from "react-redux";
-import { useAppSelector } from "../lib/hooks";
-import { AppDispatch } from "../lib/store";
-import { fetchDogObjects } from "../lib/features/dogSearchSlice";
+import { useAppSelector } from "../../lib/hooks";
+import { AppDispatch } from "../../lib/store";
+import { fetchDogObjects } from "../../lib/features/dogSearchSlice";
+import { Dog } from "@/app/typings/Dog";
 
 const DogListContainer = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -30,7 +31,7 @@ const DogListContainer = () => {
 
   useEffect(() => {
     handleFetchDogsWithDetails();
-  }, []);
+  }, [handleFetchDogsWithDetails]);
 
   return (
     <Container
