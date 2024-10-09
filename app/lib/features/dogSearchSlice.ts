@@ -110,6 +110,9 @@ const DogsSlice = createSlice({
     setMaxAge: (state, action) => {
       state.maxAge = action.payload;
     },
+    setSort: (state, action) => {
+      state.sort = action.payload;
+    },
     clearDogs: (state) => {
       state.dogs = [];
     },
@@ -117,6 +120,7 @@ const DogsSlice = createSlice({
       state.maxAge = null;
       state.minAge = null;
       state.zipCode = null;
+      state.sort = "asc";
       state.userSelectedBreeds = [];
     },
   },
@@ -150,5 +154,6 @@ export const {
   setMinAge,
   setMaxAge,
   clearSearchForm,
+  setSort,
 } = DogsSlice.actions;
 export default DogsSlice.reducer;

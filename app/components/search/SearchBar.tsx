@@ -24,7 +24,7 @@ import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
-  const { breeds, zipCode, minAge, maxAge, userSelectedBreeds } =
+  const { breeds, zipCode, minAge, maxAge, userSelectedBreeds, sort } =
     useAppSelector((state) => state.dogSearch);
 
   const [localZipCode, setLocalZipCode] = useState<number | null>(null);
@@ -72,6 +72,7 @@ const SearchBar = () => {
         zipCode: !!zipCode ? Number(zipCode) : undefined,
         minAge: !!minAge ? Number(minAge) : undefined,
         maxAge: !!maxAge ? Number(maxAge) : undefined,
+        sort,
       })
     );
 

@@ -6,18 +6,17 @@ import {
 } from "../styledComponents/WhiteSelectList";
 import theme from "@/app/theme";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
-import { fetchDogObjects } from "@/app/lib/features/dogSearchSlice";
+import { fetchDogObjects, setSort } from "@/app/lib/features/dogSearchSlice";
 
 const BreedSortSelect = () => {
   const dispatch = useAppDispatch();
   const userSelectedBreeds = useAppSelector(
     (state) => state.dogSearch.userSelectedBreeds
   );
-
-  const [sortValue, setSortValue] = useState<string>("asc");
+  const sort = useAppSelector((state) => state.dogSearch.sort);
 
   const handleSelectChange = (event: SelectChangeEvent<unknown>) => {
-    setSortValue(event.target.value as string);
+    dispatch(setSort(event.target.value as string));
     dispatch(
       fetchDogObjects({
         breeds: !!userSelectedBreeds.length ? userSelectedBreeds : undefined,
@@ -35,7 +34,7 @@ const BreedSortSelect = () => {
         theme={theme}
         labelId="sort-label"
         id="sort-label"
-        value={sortValue}
+        value={sort}
         onChange={handleSelectChange}
         MenuProps={{
           PaperProps: {
