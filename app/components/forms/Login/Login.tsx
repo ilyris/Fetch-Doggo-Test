@@ -13,32 +13,11 @@ import { useState } from "react";
 
 import theme from "../../../theme";
 import { LoginData } from "@/app/typings/Login";
+import { WhiteTextField } from "../../styledComponents/WhiteTextField";
 
 interface LoginFormProps {
   handleLoginFormCb: (loginData: LoginData) => void;
 }
-
-const WhiteTextField = styled(TextField)(({ theme }) => ({
-  "& label": {
-    color: theme.palette.text.primary,
-  },
-  "& .MuiOutlinedInput-root": {
-    color: theme.palette.text.primary,
-    borderColor: theme.palette.text.primary,
-    "& fieldset": {
-      borderColor: theme.palette.text.primary,
-    },
-    "&:hover fieldset": {
-      borderColor: theme.palette.text.primary,
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: theme.palette.text.primary,
-    },
-  },
-  "& .MuiOutlinedInput-input::placeholder": {
-    color: theme.palette.text.primary,
-  },
-}));
 
 const LoginForm: React.FC<LoginFormProps> = ({ handleLoginFormCb }) => {
   const [email, setEmail] = useState("");
@@ -110,6 +89,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLoginFormCb }) => {
           }}
         >
           <WhiteTextField
+            theme={theme}
             sx={{ mb: 2 }}
             id="name"
             required
@@ -123,6 +103,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLoginFormCb }) => {
             }
           />
           <WhiteTextField
+            theme={theme}
             sx={{ mb: 2 }}
             id="email"
             required
@@ -136,6 +117,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLoginFormCb }) => {
             }
           />
           <WhiteTextField
+            theme={theme}
             sx={{ mb: 2 }}
             id="password"
             label="Password"
