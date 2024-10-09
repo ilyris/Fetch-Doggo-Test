@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from "@mui/material";
+import { Box, Button, FormControl, MenuItem } from "@mui/material";
 import { fetchDogBreedData } from "@/app/helpers/fetchDogBreedData";
 import theme from "@/app/theme";
 import { WhiteTextField } from "../styledComponents/WhiteTextField";
@@ -16,8 +7,6 @@ import {
   WhiteInputLabel,
   WhiteSelectList,
 } from "../styledComponents/WhiteSelectList";
-import { fetchDogsId } from "@/app/helpers/fetchDogsId";
-import { fetchDogsByIds } from "@/app/helpers/fetchDogsByIds";
 import {
   fetchDogObjects,
   setMaxAge,
@@ -76,14 +65,13 @@ const SearchBar = () => {
         maxAge: Number(maxAge),
       })
     );
-  };
 
-  useEffect(() => {
-    (async () => {
-      const breeds = await fetchDogBreedData();
-      setBreedsData(breeds);
-    })();
-  }, []);
+    // reset local state on submit
+    setLocalZipCode(null);
+    setLocalMinAge(null);
+    setLocalMaxAge(null);
+    setBreedsData([]);
+  };
 
   return (
     <Box
@@ -119,8 +107,8 @@ const SearchBar = () => {
           >
             <em>Please select a breed</em>
           </MenuItem>
-          {!!breedsData?.length &&
-            breedsData.map((breed) => (
+          {!!breeds?.length &&
+            breeds.map((breed) => (
               <MenuItem
                 sx={{ color: theme.palette.background.default }}
                 key={breed}

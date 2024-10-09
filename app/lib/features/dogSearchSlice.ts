@@ -1,16 +1,9 @@
 "use client";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_URL } from "@/config";
 import { fetchDogBreedData } from "@/app/helpers/fetchDogBreedData";
-
-interface SearchParamsState {
-  breeds: string[];
-  zipCode: number | null;
-  minAge: number | null;
-  maxAge: number | null;
-}
+import { fetchDogsByIds } from "@/app/helpers/fetchDogsByIds";
 
 export interface SearchFormState {
   breeds: string[];
@@ -42,8 +35,10 @@ const initialState: SearchFormState = {
 
 export const fetchDogBreeds = createAsyncThunk(
   "dogMatches/fetchDogBreeds",
-  async () => 
-     await fetchDogBreedData()
+  async () => {
+    const breeds = await fetchDogBreedData();
+    return breeds; 
+  }
 );
 
 export const fetchDogsByBreed = createAsyncThunk(
@@ -90,15 +85,9 @@ export const fetchDogObjects = createAsyncThunk(
   async (searchParams: DogSearch, { dispatch }) => {
     const result = await dispatch(fetchDogsByBreed(searchParams)).unwrap();
     const dogIds = result.dogIds;
-    const response = await axios.post(`${BASE_URL}/dogs`, [...dogIds], {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
+    const response = await fetchDogsByIds(dogIds);
     return {
-      dogs: response.data,
+      dogs: response,
       nextPageUrl: result.nextPageUrl,
       prevPageUrl: result.prevPageUrl,
       totalCount: result.totalCount,
@@ -126,12 +115,12 @@ const DogsSlice = createSlice({
       state.dogs = [];
     },
   },
+
+  // would add rejections for global error messages, pendings for loading state, fulfilled for success messages where needed.
   extraReducers: (builder) => {
-        // Handle fetchMatchedDog state (only IDs and pagination)
         builder.addCase(fetchDogBreeds.fulfilled, (state, action) => {
           state.breeds = action.payload;
         });
-    // Handle fetchMatchedDog state (only IDs and pagination)
     builder.addCase(fetchDogsByBreed.fulfilled, (state, action) => {
       state.dogIds = action.payload.dogIds;
       state.nextPageUrl = action.payload.nextPageUrl;
@@ -139,16 +128,13 @@ const DogsSlice = createSlice({
       state.totalCount = action.payload.totalCount;
     });
 
-    // Handle fetchMatchedDogsWithDetails state (IDs, dog details, pagination)
-    builder.addCase(fetchDogObjects.pending, (state) => {});
     builder.addCase(fetchDogObjects.fulfilled, (state, action) => {
       state.dogs = action.payload.dogs;
-      state.dogIds = action.payload.dogs.map((dog: Dog) => dog.id); // IDs extracted from the dogs
+      state.dogIds = action.payload.dogs.map((dog: Dog) => dog.id);
       state.nextPageUrl = action.payload.nextPageUrl;
       state.prevPageUrl = action.payload.prevPageUrl;
       state.totalCount = action.payload.totalCount;
     });
-    builder.addCase(fetchDogObjects.rejected, (state) => {});
   },
 });
 
