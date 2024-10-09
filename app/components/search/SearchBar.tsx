@@ -1,24 +1,13 @@
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from "@mui/material";
-import { fetchDogBreedData } from "@/app/helpers/fetchDogBreedData";
+import React, { useState } from "react";
+import { Box, Button, FormControl, MenuItem } from "@mui/material";
 import theme from "@/app/theme";
 import { WhiteTextField } from "../styledComponents/WhiteTextField";
 import {
   WhiteInputLabel,
   WhiteSelectList,
 } from "../styledComponents/WhiteSelectList";
-import { fetchDogsId } from "@/app/helpers/fetchDogsId";
-import { fetchDogsByIds } from "@/app/helpers/fetchDogsByIds";
 import {
+  clearSearchForm,
   fetchDogObjects,
   setMaxAge,
   setMinAge,
@@ -29,14 +18,12 @@ import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
-  const { breeds, zipCode, minAge, maxAge } = useAppSelector(
-    (state) => state.dogs
-  );
+  const { breeds, zipCode, minAge, maxAge, userSelectedBreeds } =
+    useAppSelector((state) => state.dogs);
 
   const [localZipCode, setLocalZipCode] = useState<number | null>(null);
   const [localMinAge, setLocalMinAge] = useState<number | null>(null);
   const [localMaxAge, setLocalMaxAge] = useState<number | null>(null);
-  const [breedsData, setBreedsData] = useState<string[]>([]);
 
   const handleZipCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalZipCode(Number(e.target.value));
@@ -67,23 +54,26 @@ const SearchBar = () => {
     );
   };
 
+  const handleClearForm = () => {
+    dispatch(fetchDogObjects());
+    dispatch(clearSearchForm());
+  };
+
   const handleSearch = async () => {
     dispatch(
       fetchDogObjects({
-        breeds,
-        zipCode: Number(zipCode),
-        minAge: Number(minAge),
-        maxAge: Number(maxAge),
+        breeds: userSelectedBreeds,
+        zipCode: !!zipCode ? Number(zipCode) : undefined,
+        minAge: !!minAge ? Number(minAge) : undefined,
+        maxAge: !!maxAge ? Number(maxAge) : undefined,
       })
     );
-  };
 
-  useEffect(() => {
-    (async () => {
-      const breeds = await fetchDogBreedData();
-      setBreedsData(breeds);
-    })();
-  }, []);
+    // reset local state on submit
+    setLocalZipCode(null);
+    setLocalMinAge(null);
+    setLocalMaxAge(null);
+  };
 
   return (
     <Box
@@ -101,7 +91,7 @@ const SearchBar = () => {
           multiple
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={breeds}
+          value={userSelectedBreeds}
           onChange={handleSelectChange}
           MenuProps={{
             PaperProps: {
@@ -119,8 +109,8 @@ const SearchBar = () => {
           >
             <em>Please select a breed</em>
           </MenuItem>
-          {!!breedsData?.length &&
-            breedsData.map((breed) => (
+          {!!breeds?.length &&
+            breeds.map((breed) => (
               <MenuItem
                 sx={{ color: theme.palette.background.default }}
                 key={breed}
@@ -162,6 +152,9 @@ const SearchBar = () => {
       </FormControl>
       <Button variant="contained" onClick={handleSearch}>
         Search
+      </Button>
+      <Button variant="contained" onClick={handleClearForm}>
+        Reset
       </Button>
     </Box>
   );

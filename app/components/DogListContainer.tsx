@@ -1,44 +1,27 @@
-import { useEffect, useState } from "react";
-import { fetchDogBreedData } from "../helpers/fetchDogBreedData";
+import { useEffect } from "react";
 import { Box, Container, Button, Typography } from "@mui/material";
 import DogCard from "./cards/DogCard";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../lib/hooks";
 import { AppDispatch } from "../lib/store";
-import {
-  fetchDogObjects,
-  fetchDogsByBreed,
-} from "../lib/features/dogSearchSlice";
+import { fetchDogObjects } from "../lib/features/dogSearchSlice";
 
 const DogListContainer = () => {
   const dispatch: AppDispatch = useDispatch();
-  const [breedsData, setBreedsData] = useState<string[]>([]);
-  const { dogIds, dogs, nextPageUrl, prevPageUrl, totalCount, breeds } =
-    useAppSelector((state) => state.dogs);
-
-  const fetchBreeds = async () => {
-    try {
-      const initialBreeds = await fetchDogBreedData();
-      setBreedsData(initialBreeds);
-      handleFetchDogsWithDetails();
-    } catch (error) {
-      console.error("Error fetching initial dog data:", error);
-    }
-  };
+  const { dogs, nextPageUrl, prevPageUrl, totalCount, breeds } = useAppSelector(
+    (state) => state.dogs
+  );
 
   const handleFetchDogsWithDetails = (nextUrl?: string) => {
-    const selectedBreeds = !!breeds.length ? breeds : breedsData;
-    dispatch(fetchDogObjects({ breeds: selectedBreeds, nextUrl }));
+    dispatch(fetchDogObjects({ breeds: breeds, nextUrl }));
   };
 
-  // Handle next page
   const handleNext = () => {
     if (nextPageUrl) {
       handleFetchDogsWithDetails(nextPageUrl);
     }
   };
 
-  // Handle previous page
   const handlePrevious = () => {
     if (prevPageUrl) {
       handleFetchDogsWithDetails(prevPageUrl);
@@ -46,7 +29,7 @@ const DogListContainer = () => {
   };
 
   useEffect(() => {
-    fetchBreeds();
+    handleFetchDogsWithDetails();
   }, []);
 
   return (
