@@ -25,7 +25,7 @@ import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 const SearchBar = () => {
   const dispatch = useAppDispatch();
   const { breeds, zipCode, minAge, maxAge, userSelectedBreeds } =
-    useAppSelector((state) => state.dogs);
+    useAppSelector((state) => state.dogSearch);
 
   const [localZipCode, setLocalZipCode] = useState<number | null>(null);
   const [localMinAge, setLocalMinAge] = useState<number | null>(null);

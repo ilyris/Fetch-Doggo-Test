@@ -10,7 +10,7 @@ import { Dog } from "@/app/typings/Dog";
 const DogListContainer = () => {
   const dispatch: AppDispatch = useDispatch();
   const { dogs, nextPageUrl, prevPageUrl, totalCount, breeds } = useAppSelector(
-    (state) => state.dogs
+    (state) => state.dogSearch
   );
 
   const handleFetchDogsWithDetails = (nextUrl?: string) => {

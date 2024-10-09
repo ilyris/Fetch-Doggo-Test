@@ -6,7 +6,7 @@ export const makeStore = () => {
   return configureStore({
     reducer: {
       dogMatches: dogMatchesSlice,
-      dogs: dogSearchSlice,
+      dogSearch: dogSearchSlice,
     },
   });
 };
