@@ -10,7 +10,6 @@ import { fetchDogObjects } from "@/app/lib/features/dogSearchSlice";
 
 const BreedSortSelect = () => {
   const dispatch = useAppDispatch();
-  const breeds = useAppSelector((state) => state.dogSearch.breeds);
   const userSelectedBreeds = useAppSelector(
     (state) => state.dogSearch.userSelectedBreeds
   );
@@ -18,14 +17,10 @@ const BreedSortSelect = () => {
   const [sortValue, setSortValue] = useState<string>("asc");
 
   const handleSelectChange = (event: SelectChangeEvent<unknown>) => {
-    const selectedBreeds = !!userSelectedBreeds.length
-      ? userSelectedBreeds
-      : breeds;
-    console.log({ selectedBreeds });
     setSortValue(event.target.value as string);
     dispatch(
       fetchDogObjects({
-        breeds: selectedBreeds,
+        breeds: !!userSelectedBreeds.length ? userSelectedBreeds : undefined,
         sort: event.target.value as string,
       })
     );
