@@ -12,16 +12,16 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ handleLoginFormCb }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [fullName, setFullName] = useState<string>("");
 
-  const [nameError, setNameError] = useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = useState("");
-  const [emailError, setEmailError] = useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [passwordError, setPasswordError] = useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [nameError, setNameError] = useState<boolean>(false);
+  const [nameErrorMessage, setNameErrorMessage] = useState<string>("");
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
 
   const validateInputs = () => {
     const email = document.getElementById("email") as HTMLInputElement;
