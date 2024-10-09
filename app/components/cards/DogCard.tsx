@@ -2,6 +2,7 @@ import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { useAppDispatch } from "@/app/lib/hooks";
 import { addToFavorites } from "@/app/lib/features/dogMatchesSlice";
+import { Dog } from "@/app/typings/Dog";
 
 const DogCard: React.FC<Dog> = ({ img, name, age, zip_code, breed, id }) => {
   const dispatch = useAppDispatch();

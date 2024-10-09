@@ -14,3 +14,10 @@ React: https://react.dev/
 One: configured axios instance calls.
 Two: more optimized and cleaner UI Search bar.
 Three: More redux state cleanup -- I could / should move the Search state into it's own file, having three slices (form state, userSelectedBreeds).
+
+
+**To run the build locally**
+Git Clone <git_repo>
+Boot up your prefered IDE
+run: "Npm i" within the projects root directory
+run: "Npm run dev" to boot up the Next application on localhost:3000 (unles that port is in use while you're working).
