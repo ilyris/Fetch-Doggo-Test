@@ -46,7 +46,6 @@ export const fetchDogBreeds = createAsyncThunk(
 export const fetchDogsByBreed = createAsyncThunk(
   "searchForm/filteredBreedsAsyncThunk",
   async (params: DogSearch = {}) => {
-    // Default to an empty object
     const { breeds, zipCode, minAge, maxAge, nextUrl, sort } = params;
 
     let url = `${BASE_URL}/dogs/search`;
