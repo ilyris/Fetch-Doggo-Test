@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchDogBreedData } from "../helpers/fetchDogBreedData";
 import { Box, Container, Button, Typography } from "@mui/material";
-import { fetchDogsId } from "../helpers/fetchDogsId";
-import { fetchDogsByIds } from "../helpers/fetchDogsByIds";
 import DogCard from "./cards/DogCard";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../lib/hooks";

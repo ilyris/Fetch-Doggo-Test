@@ -149,17 +149,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLoginFormCb }) => {
               setPassword(e.target.value)
             }
           />
-          <CardActionArea>
-            <Button
-              type="submit"
-              variant="contained"
-              size="large"
-              fullWidth
-              onClick={() => validateInputs()}
-            >
-              Login
-            </Button>
-          </CardActionArea>
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            fullWidth
+            onClick={() => validateInputs()}
+          >
+            Login
+          </Button>
         </Box>
 
         <Typography>

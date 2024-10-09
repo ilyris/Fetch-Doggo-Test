@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_URL } from "@/config";
+import { fetchDogBreedData } from "@/app/helpers/fetchDogBreedData";
 
 interface SearchParamsState {
   breeds: string[];
@@ -12,28 +13,38 @@ interface SearchParamsState {
 }
 
 export interface SearchFormState {
+  breeds: string[];
   dogIds: string[];
   dogs: Dog[];
   nextPageUrl: string | null;
   prevPageUrl: string | null;
   totalCount: number | null;
-  breeds: string[];
+  userSelectedBreeds: string[];
   zipCode: number | null;
   minAge: number | null;
   maxAge: number | null;
+  sort: string;
 }
 
 const initialState: SearchFormState = {
+  breeds: [],
   dogIds: [],
   dogs: [],
   nextPageUrl: null,
   prevPageUrl: null,
   totalCount: null,
-  breeds: [],
+  userSelectedBreeds: [],
   zipCode: null,
   minAge: null,
   maxAge: null,
+  sort: "asc"
 };
+
+export const fetchDogBreeds = createAsyncThunk(
+  "dogMatches/fetchDogBreeds",
+  async () => 
+     await fetchDogBreedData()
+);
 
 export const fetchDogsByBreed = createAsyncThunk(
   "searchForm/filteredBreedsAsyncThunk",
@@ -43,7 +54,8 @@ export const fetchDogsByBreed = createAsyncThunk(
     minAge,
     maxAge,
     nextUrl,
-  }: DogSearch & { nextUrl?: string }) => {
+    sort
+  }: DogSearch) => {
     let url = `${BASE_URL}/dogs/search`;
     if (nextUrl) {
       url = nextUrl.startsWith("http") ? nextUrl : `${BASE_URL}${nextUrl}`;
@@ -56,6 +68,7 @@ export const fetchDogsByBreed = createAsyncThunk(
           zipCode,
           ageMin: minAge,
           ageMax: maxAge,
+          sort: `breed:${sort ?? "asc"}`
         };
 
     const response = await axios.get(url, {
@@ -114,6 +127,10 @@ const DogsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+        // Handle fetchMatchedDog state (only IDs and pagination)
+        builder.addCase(fetchDogBreeds.fulfilled, (state, action) => {
+          state.breeds = action.payload;
+        });
     // Handle fetchMatchedDog state (only IDs and pagination)
     builder.addCase(fetchDogsByBreed.fulfilled, (state, action) => {
       state.dogIds = action.payload.dogIds;

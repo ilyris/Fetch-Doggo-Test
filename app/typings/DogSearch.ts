@@ -5,4 +5,5 @@ interface DogSearch {
   zipCode?: number; // The zip code as a number
   minAge?: number; // Minimum age
   maxAge?: number; // Maximum age
+  sort?: string;
 }

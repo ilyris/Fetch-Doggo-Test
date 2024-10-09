@@ -1,18 +1,27 @@
 "use client";
-import { Container, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import Navbar from "../navigation/Navbar";
 import SearchBar from "../search/SearchBar";
 import DogListContainer from "../DogListContainer";
 import FavoritesHeader from "../FavoritesHeader";
+import BreedSortSelect from "../sort/BreedSortSelect";
 
 const ClientSearchPage = () => {
   return (
     <Container>
       <Navbar isUserLoggedIn={true} />
-      <Typography mb={4} variant="h4">
-        Searching for your dog!
-      </Typography>
-      <SearchBar />
+      <Box mt={5}>
+        <Typography mb={4} variant="h4">
+          Search For Your Dog!
+        </Typography>
+        <SearchBar />
+      </Box>
+      <Box mt={5}>
+        <Typography mb={4} variant="h6">
+          Sort
+        </Typography>
+        <BreedSortSelect />
+      </Box>
       <FavoritesHeader />
       <DogListContainer />
     </Container>
