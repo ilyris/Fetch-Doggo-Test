@@ -48,7 +48,7 @@ const SearchBar = () => {
     }
   };
 
-  // Handle multiple select changes
+  // Handle multiple select changes, if needed.
   const handleSelectChange = (event: SelectChangeEvent<unknown>) => {
     const {
       target: { value },
@@ -75,8 +75,6 @@ const SearchBar = () => {
         sort,
       })
     );
-
-    // reset local state on submit
     setLocalZipCode(null);
     setLocalMinAge(null);
     setLocalMaxAge(null);

@@ -42,7 +42,7 @@ const BreedSortSelect = () => {
             },
           },
         }}
-        variant="standard"
+        variant="filled"
       >
         <MenuItem
           sx={{ color: theme.palette.background.default }}

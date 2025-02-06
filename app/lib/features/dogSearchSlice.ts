@@ -46,25 +46,29 @@ export const fetchDogBreeds = createAsyncThunk(
 export const fetchDogsByBreed = createAsyncThunk(
   "searchForm/filteredBreedsAsyncThunk",
   async (params: DogSearch = {}) => {
-    const { breeds, zipCode, minAge, maxAge, nextUrl, sort } = params;
+    const { breeds, zipCode, minAge, maxAge, nextPageUrl, prevPageUrl, sort } =
+      params;
 
-    let url = `${BASE_URL}/dogs/search`;
-    if (nextUrl) {
-      url = nextUrl.startsWith("http") ? nextUrl : `${BASE_URL}${nextUrl}`;
-    }
+    // Determine which url to use for pagination
+    let url =
+      nextPageUrl || prevPageUrl
+        ? `${BASE_URL}${(nextPageUrl || prevPageUrl)?.replace(BASE_URL, "")}`
+        : `${BASE_URL}/dogs/search`;
 
-    const queryParams = nextUrl
-      ? {}
-      : {
-          breeds,
-          zipCode,
-          ageMin: minAge,
-          ageMax: maxAge,
-          sort: `breed:${sort ?? "asc"}`, // Default to "asc" if sort is not provided
-        };
+    // Use the API responded url if they exist, otherwise use our default params on page render.
+    const queryParams =
+      nextPageUrl || prevPageUrl
+        ? {}
+        : {
+            breeds,
+            zipCode,
+            ageMin: minAge,
+            ageMax: maxAge,
+            sort: `breed:${sort ?? "asc"}`, // Default to "asc" if sort is not provided
+          };
 
     const response = await axios.get(url, {
-      params: nextUrl ? undefined : queryParams,
+      params: queryParams,
       withCredentials: true,
     });
 

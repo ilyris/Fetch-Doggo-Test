@@ -13,14 +13,14 @@ export const theme = createTheme({
       main: "#B9B4C7",
     },
     secondary: {
-      main: "#5C5470",
+      main: "#C890A7",
     },
     background: {
-      default: "#352F44",
-      paper: "#FFFFFF",
+      default: "#A35C7A",
+      paper: "#FBF5E5",
     },
     text: {
-      primary: "#FFFFFF",
+      primary: "#FBF5E5",
       secondary: "#B9B4C7",
     },
   },
@@ -52,14 +52,14 @@ export const theme = createTheme({
           textTransform: "none",
           "&.primary": {
             backgroundColor: "#0D47A1",
-            color: "#FFFFFF",
+            color: "#FBF5E5",
             "&:hover": {
               backgroundColor: "#5472D3",
             },
           },
           "&.secondary": {
             backgroundColor: "#5472D3",
-            color: "#FFFFFF",
+            color: "#FBF5E5",
             "&:hover": {
               backgroundColor: "#0D47A1",
             },
@@ -77,7 +77,7 @@ export const theme = createTheme({
     MuiFilledInput: {
       styleOverrides: {
         root: {
-          color: "#FFF",
+          color: "#FBF5E5",
         },
       },
     },
@@ -98,7 +98,7 @@ export const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: "#5C5470", // Set the global background color for Card
+          backgroundColor: "#C890A7", // Set the global background color for Card
         },
       },
     },

@@ -1,35 +1,50 @@
-import { useEffect } from "react";
-import { Box, Container, Button, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Container, Typography } from "@mui/material";
 import DogCard from "../cards/DogCard";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../lib/hooks";
 import { AppDispatch } from "../../lib/store";
 import { fetchDogObjects } from "../../lib/features/dogSearchSlice";
 import { Dog } from "@/app/typings/Dog";
+import PaginationComponent from "../pagination/Pagination";
+
+const pageSize = 25; // Number of dogs per page
 
 const DogListContainer = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { dogs, nextPageUrl, prevPageUrl, totalCount, breeds } = useAppSelector(
-    (state) => state.dogSearch
-  );
+  const {
+    dogs,
+    totalCount,
+    breeds,
+    userSelectedBreeds,
+    nextPageUrl,
+    prevPageUrl,
+  } = useAppSelector((state) => state.dogSearch);
+  const [pageNumber, setPageNumber] = useState(1);
 
-  const handleFetchDogsWithDetails = (nextUrl?: string) => {
-    dispatch(fetchDogObjects({ breeds: breeds, nextUrl }));
+  const handleFetchDogsWithDetails = (nextPageUrl?: string) => {
+    dispatch(
+      fetchDogObjects({ breeds: userSelectedBreeds || breeds, nextPageUrl })
+    );
   };
 
-  const handleNext = () => {
-    if (nextPageUrl) {
-      handleFetchDogsWithDetails(nextPageUrl);
+  const handlePaginationChange = (
+    _: React.ChangeEvent<unknown>,
+    newPage: number
+  ) => {
+    setPageNumber(newPage);
+    if (newPage > pageNumber && nextPageUrl) {
+      dispatch(
+        fetchDogObjects({ breeds: userSelectedBreeds || breeds, nextPageUrl })
+      );
+    } else if (newPage < pageNumber && prevPageUrl) {
+      dispatch(
+        fetchDogObjects({ breeds: userSelectedBreeds || breeds, prevPageUrl })
+      );
     }
   };
-
-  const handlePrevious = () => {
-    if (prevPageUrl) {
-      handleFetchDogsWithDetails(prevPageUrl);
-    }
-  };
-
   useEffect(() => {
+    console.log("Rerender");
     handleFetchDogsWithDetails();
   }, []);
 
@@ -53,21 +68,12 @@ const DogListContainer = () => {
 
       {!!totalCount && !!dogs?.length && (
         <Box display={"flex"} justifyContent={"center"} width={"100%"} mt={4}>
-          <Button
-            variant="contained"
-            onClick={handlePrevious}
-            disabled={!prevPageUrl}
-            sx={{ marginRight: 2 }}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleNext}
-            disabled={!nextPageUrl}
-          >
-            Next
-          </Button>
+          <PaginationComponent
+            pageSize={pageSize}
+            totalCount={totalCount}
+            page={pageNumber}
+            onPageChange={handlePaginationChange}
+          />
         </Box>
       )}
     </Container>

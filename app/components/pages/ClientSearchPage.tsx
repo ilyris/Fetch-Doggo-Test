@@ -26,9 +26,6 @@ const ClientSearchPage = () => {
         <SearchBar />
       </Box>
       <Box mt={5}>
-        <Typography mb={4} variant="h6">
-          Sort
-        </Typography>
         <BreedSortSelect />
       </Box>
       <FavoritesHeader />

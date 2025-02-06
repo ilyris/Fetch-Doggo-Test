@@ -23,7 +23,7 @@ export const WhiteTextField = styled(TextField)<{ theme: Theme }>(
       color: theme.palette.text.primary,
     },
     "& .MuiInputLabel-shrink": {
-      color: "#FFF",
+      color: "#FBF5E5",
     },
   })
 );

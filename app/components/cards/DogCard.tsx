@@ -30,10 +30,10 @@ const DogCard: React.FC<Dog> = ({ img, name, age, zip_code, breed, id }) => {
           <StarIcon
             sx={{
               fontSize: 36,
-              color: "#5472D3",
+              color: "#2e7d32",
               cursor: "pointer",
               "&:hover": {
-                color: "#1E88E5",
+                color: "#809D3C",
               },
             }}
           />
