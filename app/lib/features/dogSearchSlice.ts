@@ -46,26 +46,22 @@ export const fetchDogBreeds = createAsyncThunk(
 export const fetchDogsByBreed = createAsyncThunk(
   "searchForm/filteredBreedsAsyncThunk",
   async (params: DogSearch = {}) => {
-    const { breeds, zipCode, minAge, maxAge, nextPageUrl, prevPageUrl, sort } =
-      params;
+    const { breeds, zipCode, minAge, maxAge, pageNumber, sort } = params;
+    const pageSize = 25; // Assuming each page has 25 results
+    let url = `${BASE_URL}/dogs/search`;
 
-    // Determine which url to use for pagination
-    let url =
-      nextPageUrl || prevPageUrl
-        ? `${BASE_URL}${(nextPageUrl || prevPageUrl)?.replace(BASE_URL, "")}`
-        : `${BASE_URL}/dogs/search`;
+    // Calculate correct offset instead of relying solely on prevPageUrl
+    const offset = ((pageNumber ?? 1) - 1) * pageSize;
 
-    // Use the API responded url if they exist, otherwise use our default params on page render.
-    const queryParams =
-      nextPageUrl || prevPageUrl
-        ? {}
-        : {
-            breeds,
-            zipCode,
-            ageMin: minAge,
-            ageMax: maxAge,
-            sort: `breed:${sort ?? "asc"}`, // Default to "asc" if sort is not provided
-          };
+    const queryParams = {
+      breeds,
+      zipCode,
+      ageMin: minAge,
+      ageMax: maxAge,
+      sort: `breed:${sort ?? "asc"}`, // Default to "asc" if sort is not provided
+      size: pageSize,
+      from: offset, // Correct offset calculation
+    };
 
     const response = await axios.get(url, {
       params: queryParams,

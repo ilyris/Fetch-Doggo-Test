@@ -6,4 +6,5 @@ export interface DogSearch {
   minAge?: number; // Minimum age
   maxAge?: number; // Maximum age
   sort?: string;
+  pageNumber?: number;
 }

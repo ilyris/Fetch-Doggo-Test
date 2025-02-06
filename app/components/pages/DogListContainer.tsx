@@ -12,39 +12,29 @@ const pageSize = 25; // Number of dogs per page
 
 const DogListContainer = () => {
   const dispatch: AppDispatch = useDispatch();
-  const {
-    dogs,
-    totalCount,
-    breeds,
-    userSelectedBreeds,
-    nextPageUrl,
-    prevPageUrl,
-  } = useAppSelector((state) => state.dogSearch);
+  const { dogs, totalCount, breeds, userSelectedBreeds } = useAppSelector(
+    (state) => state.dogSearch
+  );
   const [pageNumber, setPageNumber] = useState(1);
-
-  const handleFetchDogsWithDetails = (nextPageUrl?: string) => {
-    dispatch(
-      fetchDogObjects({ breeds: userSelectedBreeds || breeds, nextPageUrl })
-    );
-  };
 
   const handlePaginationChange = (
     _: React.ChangeEvent<unknown>,
     newPage: number
   ) => {
     setPageNumber(newPage);
-    if (newPage > pageNumber && nextPageUrl) {
-      dispatch(
-        fetchDogObjects({ breeds: userSelectedBreeds || breeds, nextPageUrl })
-      );
-    } else if (newPage < pageNumber && prevPageUrl) {
-      dispatch(
-        fetchDogObjects({ breeds: userSelectedBreeds || breeds, prevPageUrl })
-      );
-    }
+    dispatch(
+      fetchDogObjects({
+        breeds: userSelectedBreeds || breeds,
+        pageNumber: newPage,
+      })
+    );
   };
+
+  const handleFetchDogsWithDetails = () => {
+    dispatch(fetchDogObjects({ breeds: breeds }));
+  };
+
   useEffect(() => {
-    console.log("Rerender");
     handleFetchDogsWithDetails();
   }, []);
 
