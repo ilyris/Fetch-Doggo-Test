@@ -13,19 +13,15 @@ interface LoginFormProps {
 
 const LoginForm: React.FC<LoginFormProps> = ({ handleLoginFormCb }) => {
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [fullName, setFullName] = useState<string>("");
 
   const [nameError, setNameError] = useState<boolean>(false);
   const [nameErrorMessage, setNameErrorMessage] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
-  const [passwordError, setPasswordError] = useState<boolean>(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
 
   const validateInputs = () => {
     const email = document.getElementById("email") as HTMLInputElement;
-    const password = document.getElementById("password") as HTMLInputElement;
     const name = document.getElementById("name") as HTMLInputElement;
 
     let isValid = true;
@@ -37,15 +33,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLoginFormCb }) => {
     } else {
       setEmailError(false);
       setEmailErrorMessage("");
-    }
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage("");
     }
 
     if (!name.value || name.value.length < 1) {
@@ -86,7 +73,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLoginFormCb }) => {
             id="name"
             required
             label="Full Name"
-            variant="outlined"
+            variant="filled"
             value={fullName}
             error={nameError}
             helperText={nameErrorMessage}
@@ -100,26 +87,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLoginFormCb }) => {
             id="email"
             required
             label="Email"
-            variant="outlined"
+            variant="filled"
             value={email}
             error={emailError}
             helperText={emailErrorMessage}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setEmail(e.target.value)
-            }
-          />
-          <WhiteTextField
-            theme={theme}
-            sx={{ mb: 2 }}
-            id="password"
-            label="Password"
-            variant="outlined"
-            type="password"
-            value={password}
-            error={passwordError}
-            helperText={passwordErrorMessage}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
             }
           />
           <Button
@@ -132,10 +105,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLoginFormCb }) => {
             Login
           </Button>
         </Box>
-
-        <Typography>
-          Don&apos;t have an account? <Link href="/">Sign up</Link>
-        </Typography>
       </CardContent>
     </Card>
   );

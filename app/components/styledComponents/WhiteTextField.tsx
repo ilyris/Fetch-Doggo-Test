@@ -22,5 +22,8 @@ export const WhiteTextField = styled(TextField)<{ theme: Theme }>(
     "& .MuiOutlinedInput-input::placeholder": {
       color: theme.palette.text.primary,
     },
+    "& .MuiInputLabel-shrink": {
+      color: "#0000009c",
+    },
   })
 );

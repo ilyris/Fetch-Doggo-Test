@@ -70,22 +70,28 @@ export const theme = createTheme({
     MuiContainer: {
       styleOverrides: {
         root: {
-          // Some CSS
           maxWidth: "1388px !important",
         },
       },
     },
-    MuiOutlinedInput: {
+    MuiFilledInput: {
       styleOverrides: {
         root: {
-          color: "#352F44",
+          color: "#FFF",
         },
       },
     },
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: "#352F44",
+          color: "red",
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          color: "red",
         },
       },
     },
