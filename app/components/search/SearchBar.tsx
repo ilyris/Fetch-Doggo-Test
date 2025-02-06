@@ -87,15 +87,16 @@ const SearchBar = () => {
       sx={{
         position: "relative",
         display: "flex",
+        gap: 5,
       }}
     >
-      <FormControl fullWidth>
+      <FormControl sx={{ width: "20%" }}>
         <WhiteInputLabel id="breed-search-label" theme={theme}>
           Breed
         </WhiteInputLabel>
         <WhiteSelectList
+          variant="filled"
           theme={theme}
-          multiple
           labelId="breed-search-select-label"
           id="breed-search-select-label"
           value={userSelectedBreeds}
@@ -107,7 +108,6 @@ const SearchBar = () => {
               },
             },
           }}
-          variant={"standard"}
         >
           <MenuItem
             value=""
@@ -128,8 +128,9 @@ const SearchBar = () => {
             ))}
         </WhiteSelectList>
       </FormControl>
-      <FormControl fullWidth>
+      <FormControl>
         <WhiteTextField
+          variant="filled"
           theme={theme}
           label="zip code"
           placeholder="zip code"
@@ -137,24 +138,28 @@ const SearchBar = () => {
           onChange={handleZipCode}
         />
       </FormControl>
-      <FormControl fullWidth>
+      <FormControl>
         <WhiteTextField
+          variant="filled"
           theme={theme}
           label="min age"
           name="minAge"
           placeholder="min age"
           value={!!localMinAge ? localMinAge : ""}
           onChange={handleAgeChange}
+          slotProps={{ htmlInput: { maxLength: 2 } }}
         />
       </FormControl>
-      <FormControl fullWidth>
+      <FormControl>
         <WhiteTextField
+          variant="filled"
           theme={theme}
           label="max age"
           name="maxAge"
           placeholder="max age"
           value={!!localMaxAge ? localMaxAge : ""}
           onChange={handleAgeChange}
+          slotProps={{ htmlInput: { maxLength: 2 } }}
         />
       </FormControl>
       <Button variant="contained" onClick={handleSearch}>

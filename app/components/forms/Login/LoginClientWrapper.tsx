@@ -6,14 +6,21 @@ import { LoginData } from "@/app/typings/Login";
 import { useRouter } from "next/navigation";
 import { BASE_URL } from "@/config";
 import Alert from "@mui/material/Alert";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function LoginClient() {
   const [alertMessage, setAlertMessage] = useState<string>("");
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+
   const router = useRouter();
+
+  const clearAlertState = () => {
+    setShowAlert(false);
+    setAlertMessage("");
+  };
+
   const handleSubmit = async (loginData: LoginData) => {
     const { name, email } = loginData;
-
     try {
       const response = await axios.post(
         `${BASE_URL}/auth/login`,
@@ -28,9 +35,18 @@ export default function LoginClient() {
 
       if (response.status === 200) router.push("/search");
     } catch (err) {
+      // put API Response error message here if it's user friendly.
       setAlertMessage("Failed to login, please use a valid name and/or email");
+      setShowAlert(true);
     }
   };
+
+  useEffect(() => {
+    if (showAlert)
+      setTimeout(() => {
+        clearAlertState();
+      }, 4000);
+  }, [showAlert]);
 
   return (
     <Box
@@ -42,7 +58,7 @@ export default function LoginClient() {
       }}
     >
       <LoginForm handleLoginFormCb={handleSubmit} />
-      {alertMessage && (
+      {alertMessage && showAlert && (
         <Alert severity="error" sx={{ mt: 4 }}>
           {alertMessage}
         </Alert>
