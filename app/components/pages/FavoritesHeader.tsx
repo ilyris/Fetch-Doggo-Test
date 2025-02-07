@@ -1,9 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../lib/hooks";
+import { useAppDispatch, useAppSelector } from "../../lib/hooks";
 import {
   clearFavorites,
   fetchMatchedDog,
-} from "../lib/features/dogMatchesSlice";
+} from "../../lib/features/dogMatchesSlice";
 import { useRouter } from "next/navigation";
 
 const FavoritesHeader = () => {

@@ -3,7 +3,7 @@ import { Box, Container, Typography } from "@mui/material";
 import Navbar from "../navigation/Navbar";
 import SearchBar from "../search/SearchBar";
 import DogListContainer from "./DogListContainer";
-import FavoritesHeader from "../FavoritesHeader";
+import FavoritesHeader from "./FavoritesHeader";
 import BreedSortSelect from "../sort/BreedSortSelect";
 import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import { useEffect, useState } from "react";

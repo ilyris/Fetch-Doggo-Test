@@ -1,10 +1,28 @@
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { useAppDispatch } from "@/app/lib/hooks";
 import { addToFavorites } from "@/app/lib/features/dogMatchesSlice";
 import { Dog } from "@/app/typings/Dog";
 
-const DogCard: React.FC<Dog> = ({ img, name, age, zip_code, breed, id }) => {
+interface DogCardProps extends Dog {
+  showFavoriteButton?: boolean;
+}
+const DogCard: React.FC<DogCardProps> = ({
+  img,
+  name,
+  age,
+  zip_code,
+  breed,
+  id,
+  showFavoriteButton = true,
+}) => {
   const dispatch = useAppDispatch();
 
   const handleFavoriteDogAddition = () => {
@@ -19,25 +37,27 @@ const DogCard: React.FC<Dog> = ({ img, name, age, zip_code, breed, id }) => {
         <Typography variant="h6">Age: {age}</Typography>
         <Typography variant="h6">Zip Code: {zip_code}</Typography>
         <Typography variant="h6">Breed: {breed}</Typography>
-        <Box
-          sx={{
-            position: "absolute",
-            top: 0,
-            right: 15,
-          }}
-          onClick={handleFavoriteDogAddition}
-        >
-          <StarIcon
+        {showFavoriteButton && (
+          <Button
             sx={{
-              fontSize: 36,
-              color: "#2e7d32",
-              cursor: "pointer",
-              "&:hover": {
-                color: "#809D3C",
-              },
+              position: "absolute",
+              top: 0,
+              right: 15,
             }}
-          />
-        </Box>
+            onClick={handleFavoriteDogAddition}
+          >
+            <StarIcon
+              sx={{
+                fontSize: 36,
+                color: "#2e7d32",
+                cursor: "pointer",
+                "&:hover": {
+                  color: "#809D3C",
+                },
+              }}
+            />
+          </Button>
+        )}
       </CardContent>
     </Card>
   );
