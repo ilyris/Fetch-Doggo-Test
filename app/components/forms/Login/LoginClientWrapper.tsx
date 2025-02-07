@@ -35,6 +35,7 @@ export default function LoginClient() {
 
       if (response.status === 200) router.push("/search");
     } catch (err) {
+      console.log({ err });
       // put API Response error message here if it's user friendly.
       setAlertMessage("Failed to login, please use a valid name and/or email");
       setShowAlert(true);

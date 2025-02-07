@@ -19,7 +19,7 @@ const DogListContainer = () => {
 
   useEffect(() => {
     handleFetchDogsWithDetails();
-  }, []);
+  }, [handleFetchDogsWithDetails]);
 
   return (
     <Container

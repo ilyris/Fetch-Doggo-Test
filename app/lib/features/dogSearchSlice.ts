@@ -48,7 +48,7 @@ export const fetchDogsByBreed = createAsyncThunk(
   async (params: DogSearch = {}) => {
     const { breeds, zipCode, minAge, maxAge, pageNumber, sort } = params;
     const pageSize = 25; // Assuming each page has 25 results
-    let url = `${BASE_URL}/dogs/search`;
+    const url = `${BASE_URL}/dogs/search`;
 
     // Calculate correct offset instead of relying solely on prevPageUrl
     const offset = ((pageNumber ?? 1) - 1) * pageSize;

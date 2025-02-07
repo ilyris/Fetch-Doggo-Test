@@ -48,7 +48,7 @@ const ClientSearchPage = () => {
 
   useEffect(() => {
     dispatch(fetchDogBreeds());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container>
