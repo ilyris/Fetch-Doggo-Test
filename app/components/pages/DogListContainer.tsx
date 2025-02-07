@@ -1,21 +1,20 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Container, Typography } from "@mui/material";
 import DogCard from "../cards/DogCard";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../lib/hooks";
+import { useAppDispatch, useAppSelector } from "../../lib/hooks";
 import { AppDispatch } from "../../lib/store";
 import { fetchDogObjects } from "../../lib/features/dogSearchSlice";
 import { Dog } from "@/app/typings/Dog";
 
 const DogListContainer = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useAppDispatch();
   const { dogs, breeds, userSelectedBreeds } = useAppSelector(
     (state) => state.dogSearch
   );
 
-  const handleFetchDogsWithDetails = () => {
+  const handleFetchDogsWithDetails = useCallback(() => {
     dispatch(fetchDogObjects({ breeds: userSelectedBreeds || breeds }));
-  };
+  }, [dispatch, userSelectedBreeds, breeds]);
 
   useEffect(() => {
     handleFetchDogsWithDetails();

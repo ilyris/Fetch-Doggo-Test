@@ -1,11 +1,19 @@
 "use client";
 import DogCard from "@/app/components/cards/DogCard";
 import MainStyledLink from "@/app/components/navigation/MainStyledLink";
-import { useAppSelector } from "@/app/lib/hooks";
+import { clearFavorites } from "@/app/lib/features/dogMatchesSlice";
+import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
+import { AppDispatch } from "@/app/lib/store";
 import { Box, Container, Typography } from "@mui/material";
+import { useEffect } from "react";
 
 export default function MatchPage() {
+  const dispatch: AppDispatch = useAppDispatch();
   const matchedDog = useAppSelector((state) => state.dogMatches.matchedDog);
+
+  useEffect(() => {
+    dispatch(clearFavorites());
+  }, []);
 
   return (
     <Container>
